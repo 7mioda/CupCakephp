@@ -3,12 +3,14 @@
     "description": "projet d'etude",
     "autoload":{
         "psr-4":{
-            "Capcake\\": "src/Capcake"
+            "Capcake\\": "src/Capcake",
+            "App\\": "src"
         }
     },
     "require": {
         "guzzlehttp/psr7": "^1.4",
-        "http-interop/response-sender": "^1.0"
+        "http-interop/response-sender": "^1.0",
+        "zendframework/zend-expressive-fastroute": "^2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.5"
