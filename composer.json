@@ -1,0 +1,16 @@
+{
+    "name": "boukla7mid/capcake",
+    "description": "projet d'etude",
+    "autoload":{
+        "psr-4":{
+            "Capcake\\": "src/Capcake"
+        }
+    },
+    "require": {
+        "guzzlehttp/psr7": "^1.4",
+        "http-interop/response-sender": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.5"
+    }
+}
