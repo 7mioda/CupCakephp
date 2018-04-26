@@ -1,0 +1,13 @@
+{% extends "layout.twig" %}
+{% block body %}
+    <div class="container">
+        {{ dump(items) }}
+    <h1>Bienvenue</h1>
+    <ul>
+    {% for item in items %}
+        <li><a href="{{ path('flashsale.show',{id:item.id}) }}">{{ item.description }}</a></li>
+        {% endfor %}
+    </ul>
+    </div>
+
+{% endblock %}

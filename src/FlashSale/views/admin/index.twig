@@ -1,0 +1,40 @@
+{% extends "@admin/layout.twig" %}
+{% block body %}
+
+<p class="text-right">
+    <a href="{{ path('admin.flashsale.create') }}" class="btn btn-primary">
+        Ajouter venteflash
+    </a>
+</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>ID</td>
+                <td>Prix</td>
+                <td>Description</td>
+                <td>Statut</td>
+                <td>Actions</td>
+            </tr>
+        </thead>
+        <tbody>
+           {%  for item in items %}
+               <tr>
+                   <td>{{ item.id }}</td>
+                   <td>{{ item.price }}</td>
+                   <td>{{ item.description }}</td>
+                   <td>{{ item.state }}</td>
+                   <td>
+                       <a href="{{ path('admin.flashsale.edit',{id: item.id}) }}" class="btn btn-primary">Editer</a>
+                       <form style="display: inline" action="{{ path('admin.flashsale.delete',{id: item.id}) }}" method="POST" onsubmit="return confirm('Est vous sure');">
+                           <input type="hidden" name="_method" value="DELETE">
+                           <button class="btn btn-danger">Supprimer</button>
+                       </form>
+                   </td>
+
+               </tr>
+
+            {%  endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
