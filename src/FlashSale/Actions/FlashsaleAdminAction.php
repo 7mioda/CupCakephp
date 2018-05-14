@@ -6,6 +6,7 @@ use Cupcake\Actions\RouterAwareAction;
 use Cupcake\Renderer;
 use Cupcake\Router;
 use Cupcake\Session\FlashService;
+use Cupcake\Validator;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class FlashsaleAdminAction{
@@ -96,12 +97,16 @@ class FlashsaleAdminAction{
             $params = array_filter($request->getParsedBody(),function($key){
                 return in_array($key,['price','description']);
             },ARRAY_FILTER_USE_KEY);
-            $this->flashrepo->update($item->id,$params);
-            $this->flash->success("La vente flash a été bien modifiée");
-            return $this->redirect("admin.flashsale.index");
+            $validator=$this->getValidator($request);
+            if($validator->isValid()){
+                $this->flashrepo->update($item->id,$params);
+                $this->flash->success("La vente flash a été bien modifiée");
+                return $this->redirect("admin.flashsale.index");
+            }
+            $errors = $validator->getErrors();
          }
         $item = $this->flashrepo->find($request->getAttribute('id'));
-        return $this->renderer->render('@flashsale/admin/edit',compact('item'));
+        return $this->renderer->render('@flashsale/admin/edit',compact('item','errors'));
     }
 
     /**
@@ -114,11 +119,15 @@ class FlashsaleAdminAction{
             $params = array_filter($request->getParsedBody(),function($key){
                 return in_array($key,['price','description']);
             },ARRAY_FILTER_USE_KEY);
-            $this->flashrepo->insert($params);
-            $this->flash->success("La vente flash a été bien ajoutée");
-            return $this->redirect("admin.flashsale.index");
+            $validator=$this->getValidator($request);
+            if($validator->isValid()) {
+                $this->flashrepo->insert($params);
+                $this->flash->success("La vente flash a été bien ajoutée");
+                return $this->redirect("admin.flashsale.index");
+            }
+            $errors = $validator->getErrors();
         }
-        return $this->renderer->render('@flashsale/admin/create',[]);
+        return $this->renderer->render('@flashsale/admin/create',compact('errors'));
 
     }
 
@@ -133,6 +142,12 @@ class FlashsaleAdminAction{
         $this->flashrepo->delete($request->getAttribute('id'));
         return $this->redirect("admin.flashsale.index");
 
+    }
+
+    private function getValidator(Request $request){
+        return (new Validator($request->getParsedBody()))
+            ->required('price','description')
+            ->length('description',5);
     }
 
 

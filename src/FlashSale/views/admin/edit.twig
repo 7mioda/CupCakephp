@@ -2,6 +2,7 @@
 {% block title "Edition" %}
 {% block body %}
     <h1>Editer la vente flash d'ID: {{ item.id }}</h1>
+    {{ dump(errors) }}
     <form action="{{ path('admin.flashsale.edit',{id: item.id}) }}" method="post">
     <div class="form-group">
         <label for="price">  Prix de la venteflash   </label>

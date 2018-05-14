@@ -1,6 +1,7 @@
 {% extends "@admin/layout.twig" %}
 {% block title "Create" %}
 {% block body %}
+
     <h1>Ajouter la vente flash d'ID: {{ item.id }}</h1>
     <form action="{{ path('admin.flashsale.create') }}" method="post">
     <div class="form-group">

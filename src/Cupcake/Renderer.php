@@ -12,7 +12,8 @@ class Renderer {
     {
         $this->loader = new \Twig_Loader_Filesystem($path);
         $this->twig = new \Twig_Environment($this->loader,[
-            'cache' => false
+            'cache' => false,
+            'debug'=>true,
         ]);
         if($container->has('twig.extension')){
             foreach($container->get('twig.extension') as $extension){
