@@ -1,5 +1,9 @@
 <?php
 use Cupcake\Renderer;
+use Cupcake\Router\RouterTwigExtension;
+use Cupcake\Session\FlashTwigExtension;
+use Cupcake\Session\PHPSession;
+use Cupcake\Session\SessionInterface;
 use function DI\{get,object};
 
 return [
@@ -9,9 +13,11 @@ return [
     'database.name'=> 'CupCake',
     'views.path'=>dirname(__DIR__).'/views',
     'twig.extension'=>[
-      get(\Cupcake\Router\RouterTwigExtension::class),
+      get(RouterTwigExtension::class),
+      get(FlashTwigExtension::class),
       new Twig_Extension_Debug()
     ],
+    SessionInterface::class =>object(PHPSession::class),
     \Cupcake\Router::class => \DI\object(\Cupcake\Router::class),
     Renderer::class => object(Renderer::class)->constructorParameter('path',get('views.path')),
     \PDO::class => function(\DI\Container $container){
