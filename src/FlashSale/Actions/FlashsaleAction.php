@@ -19,13 +19,14 @@ class FlashsaleAction{
         if($request->getAttribute('id')){
             return $this->show($request);
         }else {
-            return $this->index();
+            return $this->index($request);
         }
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $items = $this->flashrepo->findAll();
+        $params = $request->getQueryParams();
+        $items = $this->flashrepo->findPaginated(12,$params['p'] ?? 1);
         return $this->renderer->render('@flashsale/index',compact('items'));
     }
 

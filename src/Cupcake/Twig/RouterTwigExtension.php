@@ -1,5 +1,5 @@
 <?php
-namespace Cupcake\Router;
+namespace Cupcake\Twig;
 
 
 use Cupcake\Router;

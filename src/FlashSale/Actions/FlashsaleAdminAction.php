@@ -58,15 +58,16 @@ class FlashsaleAdminAction{
         if($request->getAttribute('id')){
             return $this->edit($request);
         }else {
-            return $this->index();
+            return $this->index($request);
         }
     }
 
     /**
      * Afficher toutes les vente flash en adminstration
+     * @param Request $request
      * @return string
      */
-    public function index()
+    public function index(Request $request)
     {
         $items = $this->flashrepo->findAll();
         return $this->renderer->render('@flashsale/admin/index',compact('items'));

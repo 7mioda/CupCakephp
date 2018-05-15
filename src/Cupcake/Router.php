@@ -69,7 +69,11 @@ class Router {
 
     }
 
-    public function generateUri(string $name, array $params){
-        return $this->router->generateUri($name,$params);
+    public function generateUri(string $name, array $params = [],array $queryParams = []){
+        $uri = $this->router->generateUri($name,$params);
+        if(!empty($queryParams)){
+            return $uri.'?'.http_build_query($queryParams);
+        }
+        return $uri;
     }
 }

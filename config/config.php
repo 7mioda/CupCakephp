@@ -1,9 +1,13 @@
 <?php
+
 use Cupcake\Renderer;
-use Cupcake\Router\RouterTwigExtension;
 use Cupcake\Session\FlashTwigExtension;
 use Cupcake\Session\PHPSession;
 use Cupcake\Session\SessionInterface;
+use Cupcake\Twig\PagerFantaExtension;
+use Cupcake\Twig\RouterTwigExtension;
+use Cupcake\Twig\TextExtension;
+use Cupcake\Twig\TimeExtension;
 use function DI\{get,object};
 
 return [
@@ -15,6 +19,9 @@ return [
     'twig.extension'=>[
       get(RouterTwigExtension::class),
       get(FlashTwigExtension::class),
+      get(TimeExtension::class),
+      get(TextExtension::class),
+      get(PagerFantaExtension::class),
       new Twig_Extension_Debug()
     ],
     SessionInterface::class =>object(PHPSession::class),
