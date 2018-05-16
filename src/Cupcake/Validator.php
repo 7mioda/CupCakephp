@@ -163,4 +163,15 @@ class Validator
         }
         return null;
     }
+
+    public function exists(string $key,string $table, \PDO $pdo): self
+    {
+        $value = $this->getValue($key);
+        $statment = $pdo->prepare("SELECT id FROM $table WHERE id = ?");
+        $statment->execute([$value]);
+        if($statment->fetchColumn() == false){
+            $this->addError($key,'exists',[$table]);
+        }
+        return $this;
+    }
 }

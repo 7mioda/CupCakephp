@@ -1,0 +1,31 @@
+{% extends "layout.twig" %}
+{% block body %}
+
+    <h1>Bienvenue</h1>
+    <div class="row">
+        {% for row in items | batch(4) %}
+            <div class="card-deck">
+                {% for item in row %}
+                    <div class="card">
+                        <div class="card-header">
+                            {{ item.name }}
+                        </div>
+                        <div class="card-block">
+                            <a href="{{ path('product.show',{id:item.id}) }}">{{ item.price }}</a>
+                            <p class="card-text">{{ item.quantity  }}</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ path('product.show',{id:item.id}) }}" class="btn btn-primary">Voir plus</a>
+                        </div>
+                    </div>
+
+                {% endfor %}
+
+
+            </div>
+        {% endfor %}
+
+    </div>
+    {{ paginate(items,'flashsale.index') }}
+
+{% endblock %}

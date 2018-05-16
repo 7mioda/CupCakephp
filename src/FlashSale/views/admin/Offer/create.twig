@@ -1,0 +1,22 @@
+{% extends "@admin/layout.twig" %}
+{% block title "Create" %}
+{% block body %}
+
+    <h1>Ajouter une promotion: {{ item.id }}</h1>
+    <form action="{{ path('admin.offer.create') }}" method="post">
+        <div class="form-group">
+            <label for="product"> Category </label>
+            <select class="form-control" id="product" name="product">
+                {% for key, value in products%}
+                    <option  value="{{ key }}">{{ value }}</option>
+                {%  endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+         <label for="price"> Nouveau prix:  </label>
+         <input type="text" class="form-control" id="price" name="price">
+        </div>
+        <button class="btn btn-primary" type="submit" >Ajouter</button>
+    </form>
+
+{% endblock %}

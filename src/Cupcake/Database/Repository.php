@@ -1,7 +1,6 @@
 <?php
 namespace Cupcake\Database;
 
-use App\FlashSale\Entity\FlahSale;
 use Pagerfanta\Pagerfanta;
 
 class Repository{
@@ -17,6 +16,13 @@ class Repository{
      * @var string
      */
     protected $table;
+
+    /**
+     * Entité a utiliser
+     *
+     * @var string
+     */
+    protected $entity;
 
 
     /**
@@ -37,8 +43,22 @@ class Repository{
     public function findAll() : array
     {
         return $this->pdo
-            ->query('SELECT * FROM FlashSale')
+            ->query("SELECT * FROM {$this->table}")
             ->fetchAll();
+    }
+
+    /**
+     * Récupère une liste clef valeur des enregistrements
+     */
+    public function findList():array
+    {
+        $results = $this->pdo->query("SELECT id, name FROM {$this->table}")
+            ->fetchAll(\PDO::FETCH_NUM);
+        $list = [];
+        foreach ($results as $result){
+            $list[$result[0]] = $result[1];
+        }
+        return $list;
     }
 
     /**
@@ -52,27 +72,33 @@ class Repository{
     {
         $query = new PaginatedQuery(
             $this->pdo,
-            'SELECT * FROM FlashSale',
-            'SELECT COUNT(id) FROM FlashSale',
-            FlahSale::class
+            $this->paginationQuery(),
+            'SELECT COUNT(id) FROM '.$this->table,
+            $this->entity
         );
         return(new Pagerfanta($query))
             ->setMaxPerPage($perPage)
             ->setCurrentPage($currentPage);
     }
 
+    protected function paginationQuery(){
+        return 'SELECT * FROM '.$this->table;
+    }
+
     /**
-     *
+     *Recuppere un element a partir de son ID
      *
      * @param int $id
      * @return mixed
      */
-    public function find(int $id) : FlahSale
+    public function find(int $id)
     {
         $query = $this->pdo
-            ->prepare('SELECT * from FlashSale WHERE id = ?');
+            ->prepare("SELECT * from {$this->table} WHERE id = ?");
         $query->execute([$id]);
-        $query->setFetchMode(\PDO::FETCH_CLASS,FlahSale::class);
+        if($this->entity){
+            $query->setFetchMode(\PDO::FETCH_CLASS,$this->entity);
+        }
         return $query->fetch();
 
     }
@@ -90,7 +116,7 @@ class Repository{
             return"$field= :$field";
         },array_keys($params)));
         $params["id"] = $id;
-        $statment = $this->pdo->prepare("UPDATE FlashSale SET $fieldQuery WHERE id=:id");
+        $statment = $this->pdo->prepare("UPDATE {$this->table} SET $fieldQuery WHERE id=:id");
         return $statment->execute($params);
     }
 
@@ -104,7 +130,7 @@ class Repository{
         $fieldQuery = join(',',array_map(function ($field){
             return"$field= :$field";
         },array_keys($params)));
-        $statment = $this->pdo->prepare("INSERT INTO FlashSale SET  $fieldQuery");
+        $statment = $this->pdo->prepare("INSERT INTO {$this->table} SET  $fieldQuery");
         return $statment->execute($params);
     }
 
@@ -115,8 +141,40 @@ class Repository{
      * @return bool
      */
     public function delete(int $id): bool {
-        $statment = $this->pdo->prepare("DELETE FROM FlashSale WHERE  id = ?");
+        $statment = $this->pdo->prepare("DELETE FROM {$this->table} WHERE  id = ?");
         return $statment->execute([$id]);
+    }
+
+    /**
+     * @return string
+     */
+    public function getEntity(): string
+    {
+        return $this->entity;
+    }
+
+    /**
+     * @param string $entity
+     */
+    public function setEntity(string $entity)
+    {
+        $this->entity = $entity;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTable(): string
+    {
+        return $this->table;
+    }
+
+    /**
+     * @return \PDO
+     */
+    public function getPdo(): \PDO
+    {
+        return $this->pdo;
     }
 
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Admin\AdminModule;
+use App\Product\ProductManagmentModule;
 use Cupcake\App;
 use App\FlashSale\FlashSaleModule;
 require '../vendor/autoload.php';
@@ -10,6 +11,7 @@ require '../vendor/autoload.php';
 
 $modules = [
     AdminModule::class,
+    ProductManagmentModule::class,
     FlashSaleModule::class
 ];
 

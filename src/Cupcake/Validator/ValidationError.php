@@ -20,7 +20,8 @@ class ValidationError
         'maxLength' =>'le champ %s doit contenir moin de %d caractères',
         'betweenLength' =>'le champ %s doit contenir entre %d et %d caractères',
         'datetime' =>'le champ %s doit etre une date valide (%s)',
-        'slug' =>'le champ %s n\'est pas un slug valide'
+        'slug' =>'le champ %s n\'est pas un slug valide',
+        'exists'=>'le champ %s n\'est existe pas dans la table %s'
     ];
     /**
      * @var array

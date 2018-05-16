@@ -1,0 +1,26 @@
+{% extends "@admin/layout.twig" %}
+{% block title "Edition" %}
+{% block body %}
+    <h1>Editer le produit</h1>
+    <form action="{{ path('admin.product.edit') }}" method="post">
+        <div class="form-group">
+            <label for="name"> Nom du  produit  </label>
+            <input type="text" class="form-control" id="name" name="name">
+        </div>
+        <div class="form-group">
+            <label for="price"> Prix du  produit  </label>
+            <input type="text" class="form-control" id="price" name="price">
+        </div>
+        <div class="form-group">
+            <label for="quantity"> Quantité </label>
+            <input type="text" class="form-control" id="quantity" name="quantity">
+        </div>
+        <div class="form-group">
+            <label for="category"> Category </label>
+            <input type="text" class="form-control" id="category" name="category">
+        </div>
+        <button class="btn btn-primary" type="submit" >Ajouter</button>
+    </form>
+
+
+{% endblock %}
